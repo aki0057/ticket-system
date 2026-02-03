@@ -1,7 +1,7 @@
 package com.example.ticket.domain.model.entity;
 
 import com.example.ticket.domain.exception.InvalidStatusTransitionException;
-import com.example.ticket.domain.model.vo.*;
+import com.example.ticket.domain.model.value.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

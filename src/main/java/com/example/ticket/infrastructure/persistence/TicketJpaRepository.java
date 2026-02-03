@@ -1,7 +1,7 @@
 package com.example.ticket.infrastructure.persistence;
 
-import com.example.ticket.domain.model.vo.Priority;
-import com.example.ticket.domain.model.vo.Status;
+import com.example.ticket.domain.model.value.Priority;
+import com.example.ticket.domain.model.value.Status;
 import com.example.ticket.infrastructure.persistence.entity.TicketJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

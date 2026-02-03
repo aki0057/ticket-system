@@ -2,7 +2,7 @@ package com.example.ticket.domain.model.entity;
 
 import com.example.ticket.domain.event.*;
 import com.example.ticket.domain.exception.InvalidStatusTransitionException;
-import com.example.ticket.domain.model.vo.*;
+import com.example.ticket.domain.model.value.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

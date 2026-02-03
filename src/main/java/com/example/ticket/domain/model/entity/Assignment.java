@@ -1,7 +1,7 @@
 package com.example.ticket.domain.model.entity;
 
-import com.example.ticket.domain.model.vo.Assignee;
-import com.example.ticket.domain.model.vo.TicketId;
+import com.example.ticket.domain.model.value.Assignee;
+import com.example.ticket.domain.model.value.TicketId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

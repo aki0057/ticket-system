@@ -1,7 +1,7 @@
 package com.example.ticket.infrastructure.persistence;
 
 import com.example.ticket.domain.model.entity.Ticket;
-import com.example.ticket.domain.model.vo.*;
+import com.example.ticket.domain.model.value.*;
 import com.example.ticket.domain.repository.TicketRepository;
 import com.example.ticket.infrastructure.persistence.entity.TicketJpaEntity;
 import lombok.RequiredArgsConstructor;

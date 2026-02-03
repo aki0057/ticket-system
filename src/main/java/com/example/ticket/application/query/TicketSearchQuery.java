@@ -1,7 +1,7 @@
 package com.example.ticket.application.query;
 
-import com.example.ticket.domain.model.vo.Priority;
-import com.example.ticket.domain.model.vo.Status;
+import com.example.ticket.domain.model.value.Priority;
+import com.example.ticket.domain.model.value.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

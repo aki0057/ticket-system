@@ -1,6 +1,6 @@
 package com.example.ticket.domain.event;
 
-import com.example.ticket.domain.model.vo.Priority;
+import com.example.ticket.domain.model.value.Priority;
 import lombok.Getter;
 
 /**

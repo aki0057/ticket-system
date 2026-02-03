@@ -1,6 +1,6 @@
 package com.example.ticket.application.query.dto;
 
-import com.example.ticket.domain.model.vo.Status;
+import com.example.ticket.domain.model.value.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

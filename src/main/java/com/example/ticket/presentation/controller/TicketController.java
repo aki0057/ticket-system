@@ -122,10 +122,10 @@ public class TicketController {
         TicketSearchQuery query = new TicketSearchQuery();
         query.setTicketId(ticketId);
         if (status != null) {
-            query.setStatus(com.example.ticket.domain.model.vo.Status.valueOf(status));
+            query.setStatus(com.example.ticket.domain.model.value.Status.valueOf(status));
         }
         if (priority != null) {
-            query.setPriority(com.example.ticket.domain.model.vo.Priority.valueOf(priority));
+            query.setPriority(com.example.ticket.domain.model.value.Priority.valueOf(priority));
         }
         query.setAssigneeId(assigneeId);
         query.setOverdue(overdue);

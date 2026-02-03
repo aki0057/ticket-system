@@ -1,4 +1,4 @@
-package com.example.ticket.domain.model.vo;
+package com.example.ticket.domain.model.value;
 
 import org.junit.jupiter.api.Test;
 

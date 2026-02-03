@@ -1,9 +1,9 @@
 package com.example.ticket.domain.repository;
 
 import com.example.ticket.domain.model.entity.Ticket;
-import com.example.ticket.domain.model.vo.Priority;
-import com.example.ticket.domain.model.vo.Status;
-import com.example.ticket.domain.model.vo.TicketId;
+import com.example.ticket.domain.model.value.Priority;
+import com.example.ticket.domain.model.value.Status;
+import com.example.ticket.domain.model.value.TicketId;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -5,7 +5,7 @@ import com.example.ticket.domain.event.DomainEvent;
 import com.example.ticket.domain.exception.TicketNotFoundException;
 import com.example.ticket.domain.model.entity.Comment;
 import com.example.ticket.domain.model.entity.Ticket;
-import com.example.ticket.domain.model.vo.*;
+import com.example.ticket.domain.model.value.*;
 import com.example.ticket.domain.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

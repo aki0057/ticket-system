@@ -4,7 +4,7 @@ import com.example.ticket.application.command.CreateTicketCommand;
 import com.example.ticket.application.command.UpdateTicketStatusCommand;
 import com.example.ticket.domain.exception.TicketNotFoundException;
 import com.example.ticket.domain.model.entity.Ticket;
-import com.example.ticket.domain.model.vo.*;
+import com.example.ticket.domain.model.value.*;
 import com.example.ticket.domain.repository.TicketRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

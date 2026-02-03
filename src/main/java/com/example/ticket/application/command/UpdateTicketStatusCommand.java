@@ -1,6 +1,6 @@
 package com.example.ticket.application.command;
 
-import com.example.ticket.domain.model.vo.Status;
+import com.example.ticket.domain.model.value.Status;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

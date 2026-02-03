@@ -1,7 +1,7 @@
 package com.example.ticket.infrastructure.batch.job;
 
 import com.example.ticket.domain.model.entity.Ticket;
-import com.example.ticket.domain.model.vo.Status;
+import com.example.ticket.domain.model.value.Status;
 import com.example.ticket.domain.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
