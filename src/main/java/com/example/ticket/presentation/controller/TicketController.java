@@ -75,16 +75,6 @@ public class TicketController {
     }
 
     /**
-     * チケット再開
-     */
-    @PutMapping("/{ticketId}/reopen")
-    public ResponseEntity<Void> reopenTicket(@PathVariable String ticketId) {
-        log.info("PUT /api/tickets/{}/reopen", ticketId);
-        commandService.reopenTicket(ticketId);
-        return ResponseEntity.ok().build();
-    }
-
-    /**
      * コメント追加
      */
     @PostMapping("/{ticketId}/comments")

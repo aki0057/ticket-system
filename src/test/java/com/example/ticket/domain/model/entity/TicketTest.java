@@ -1,11 +1,18 @@
 package com.example.ticket.domain.model.entity;
 
-import com.example.ticket.domain.exception.InvalidStatusTransitionException;
-import com.example.ticket.domain.model.value.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.example.ticket.domain.exception.InvalidStatusTransitionException;
+import com.example.ticket.domain.model.value.Assignee;
+import com.example.ticket.domain.model.value.DueDate;
+import com.example.ticket.domain.model.value.Status;
+import com.example.ticket.domain.model.value.TicketId;
 
 /**
  * チケットエンティティのテスト
@@ -77,37 +84,15 @@ class TicketTest {
     }
 
     @Test
-    void 解決済みチケットを再開できる() {
-        ticket.changeStatus(Status.IN_PROGRESS);
-        ticket.resolve();
-        ticket.reopen();
-
-        assertEquals(Status.REOPENED, ticket.getStatus());
-    }
-
-    @Test
-    void 解決済み以外のチケットを再開しようとすると例外が発生する() {
-        assertThrows(InvalidStatusTransitionException.class, () -> ticket.reopen());
-    }
-
-    @Test
     void 期限切れかつ未解決の場合はSLA違反と判定される() {
         DueDate pastDueDate = DueDate.of(java.time.LocalDateTime.now().minusDays(1));
         Ticket overdueTicket = new Ticket(
                 TicketId.generate(),
                 "期限切れチケット",
                 "説明",
-                Priority.HIGH,
                 pastDueDate);
 
         assertTrue(overdueTicket.isSlaViolated());
-    }
-
-    @Test
-    void エスカレーションで優先度が上がる() {
-        ticket.escalate();
-
-        assertEquals(Priority.HIGH, ticket.getPriority());
     }
 
     @Test

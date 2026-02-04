@@ -10,9 +10,7 @@ import com.example.ticket.domain.event.DomainEvent;
 import com.example.ticket.domain.event.DueDateExtendedEvent;
 import com.example.ticket.domain.event.StatusChangedEvent;
 import com.example.ticket.domain.event.TicketCreatedEvent;
-import com.example.ticket.domain.event.TicketReopenedEvent;
 import com.example.ticket.domain.event.TicketResolvedEvent;
-import com.example.ticket.domain.exception.InvalidStatusTransitionException;
 import com.example.ticket.domain.model.value.Assignee;
 import com.example.ticket.domain.model.value.DueDate;
 import com.example.ticket.domain.model.value.Status;
@@ -71,11 +69,6 @@ public class Ticket {
         if (newStatus == Status.RESOLVED) {
             this.addDomainEvent(new TicketResolvedEvent(id.getValue()));
         }
-
-        // 再開イベント
-        if (newStatus == Status.REOPENED) {
-            this.addDomainEvent(new TicketReopenedEvent(id.getValue()));
-        }
     }
 
     /**
@@ -127,16 +120,6 @@ public class Ticket {
      */
     public void resolve() {
         changeStatus(Status.RESOLVED);
-    }
-
-    /**
-     * チケット再開
-     */
-    public void reopen() {
-        if (this.status != Status.RESOLVED) {
-            throw new InvalidStatusTransitionException("Only resolved tickets can be reopened");
-        }
-        changeStatus(Status.REOPENED);
     }
 
     /**

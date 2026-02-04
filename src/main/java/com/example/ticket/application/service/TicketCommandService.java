@@ -91,19 +91,6 @@ public class TicketCommandService {
     }
 
     /**
-     * チケット再開
-     */
-    public void reopenTicket(String ticketId) {
-        log.info("Reopening ticket: {}", ticketId);
-
-        Ticket ticket = findTicket(ticketId);
-        ticket.reopen();
-
-        ticketRepository.save(ticket);
-        publishEvents(ticket);
-    }
-
-    /**
      * 期限延長
      */
     public void extendDueDate(String ticketId, int hours) {

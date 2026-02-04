@@ -9,7 +9,6 @@ import com.example.ticket.domain.event.CommentAddedEvent;
 import com.example.ticket.domain.event.DueDateExtendedEvent;
 import com.example.ticket.domain.event.StatusChangedEvent;
 import com.example.ticket.domain.event.TicketCreatedEvent;
-import com.example.ticket.domain.event.TicketReopenedEvent;
 import com.example.ticket.domain.event.TicketResolvedEvent;
 
 import lombok.extern.slf4j.Slf4j;
@@ -66,14 +65,6 @@ public class DomainEventHandler {
     @EventListener
     public void handleTicketResolvedEvent(TicketResolvedEvent event) {
         log.info("【監査ログ】チケット解決: チケットID={}, 発生時刻={}",
-                event.getTicketId(),
-                event.getOccurredOn());
-    }
-
-    @Async
-    @EventListener
-    public void handleTicketReopenedEvent(TicketReopenedEvent event) {
-        log.warn("【監査ログ】チケット再開: チケットID={}, 発生時刻={}",
                 event.getTicketId(),
                 event.getOccurredOn());
     }
