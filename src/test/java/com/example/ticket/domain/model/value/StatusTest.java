@@ -1,102 +1,124 @@
 package com.example.ticket.domain.model.value;
 
 import com.example.ticket.domain.exception.InvalidStatusTransitionException;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * ステータス値オブジェクトのテスト（TDD）
- */
+@DisplayName("Status のテスト")
 class StatusTest {
-    
-    @Test
-    void 新規から対応中への遷移は成功する() {
-        assertDoesNotThrow(() -> 
-            Status.validateTransition(Status.NEW, Status.IN_PROGRESS)
-        );
+
+    // ========================================================================
+    // getDisplayName のテスト
+    // ========================================================================
+    @Nested
+    @DisplayName("getDisplayName のテスト")
+    class GetDisplayNameTest {
+
+        @ParameterizedTest
+        @CsvSource({
+                "NEW,新規",
+                "IN_PROGRESS,対応中",
+                "ON_HOLD,保留",
+                "RESOLVED,解決"
+        })
+        @DisplayName("各状態の表示名が正しく返される")
+        void getDisplayName(String statusName, String expectedDisplayName) {
+            // Arrange
+            Status status = Status.valueOf(statusName);
+
+            // Act
+            String result = status.getDisplayName();
+
+            // Assert
+            assertThat(result).isEqualTo(expectedDisplayName);
+        }
     }
-    
-    @Test
-    void 新規から保留への遷移は成功する() {
-        assertDoesNotThrow(() -> 
-            Status.validateTransition(Status.NEW, Status.ON_HOLD)
-        );
+
+    // ========================================================================
+    // validateTransition のテスト
+    // ========================================================================
+    @Nested
+    @DisplayName("validateTransition のテスト")
+    class ValidateTransitionTest {
+
+        @ParameterizedTest
+        @CsvSource({
+                "NEW,NEW,false",
+                "NEW,IN_PROGRESS,true",
+                "NEW,ON_HOLD,false",
+                "NEW,RESOLVED,false",
+                "IN_PROGRESS,NEW,false",
+                "IN_PROGRESS,IN_PROGRESS,true",
+                "IN_PROGRESS,ON_HOLD,true",
+                "IN_PROGRESS,RESOLVED,true",
+                "ON_HOLD,NEW,false",
+                "ON_HOLD,IN_PROGRESS,true",
+                "ON_HOLD,ON_HOLD,true",
+                "ON_HOLD,RESOLVED,false",
+                "RESOLVED,NEW,false",
+                "RESOLVED,IN_PROGRESS,false",
+                "RESOLVED,ON_HOLD,false",
+                "RESOLVED,RESOLVED,true"
+        })
+        @DisplayName("状態遷移が遷移ルールに従う")
+        void validateTransition(String fromStatusName, String toStatusName, boolean shouldSucceed) {
+            // Arrange
+            Status from = Status.valueOf(fromStatusName);
+            Status to = Status.valueOf(toStatusName);
+
+            // Act & Assert
+            if (shouldSucceed) {
+                assertThatNoException()
+                        .isThrownBy(() -> Status.validateTransition(from, to));
+            } else {
+                assertThatThrownBy(() -> Status.validateTransition(from, to))
+                        .isInstanceOf(InvalidStatusTransitionException.class);
+            }
+        }
     }
-    
-    @Test
-    void 新規から解決への遷移は失敗する() {
-        assertThrows(InvalidStatusTransitionException.class, () ->
-            Status.validateTransition(Status.NEW, Status.RESOLVED)
-        );
-    }
-    
-    @Test
-    void 対応中から保留への遷移は成功する() {
-        assertDoesNotThrow(() -> 
-            Status.validateTransition(Status.IN_PROGRESS, Status.ON_HOLD)
-        );
-    }
-    
-    @Test
-    void 対応中から解決への遷移は成功する() {
-        assertDoesNotThrow(() -> 
-            Status.validateTransition(Status.IN_PROGRESS, Status.RESOLVED)
-        );
-    }
-    
-    @Test
-    void 保留から対応中への遷移は成功する() {
-        assertDoesNotThrow(() -> 
-            Status.validateTransition(Status.ON_HOLD, Status.IN_PROGRESS)
-        );
-    }
-    
-    @Test
-    void 保留から新規への遷移は失敗する() {
-        assertThrows(InvalidStatusTransitionException.class, () ->
-            Status.validateTransition(Status.ON_HOLD, Status.NEW)
-        );
-    }
-    
-    @Test
-    void 解決から再開への遷移は成功する() {
-        assertDoesNotThrow(() -> 
-            Status.validateTransition(Status.RESOLVED, Status.REOPENED)
-        );
-    }
-    
-    @Test
-    void 解決から新規への遷移は失敗する() {
-        assertThrows(InvalidStatusTransitionException.class, () ->
-            Status.validateTransition(Status.RESOLVED, Status.NEW)
-        );
-    }
-    
-    @Test
-    void 再開から対応中への遷移は成功する() {
-        assertDoesNotThrow(() -> 
-            Status.validateTransition(Status.REOPENED, Status.IN_PROGRESS)
-        );
-    }
-    
-    @Test
-    void 再開から解決への遷移は成功する() {
-        assertDoesNotThrow(() -> 
-            Status.validateTransition(Status.REOPENED, Status.RESOLVED)
-        );
-    }
-    
-    @Test
-    void 同じステータスへの遷移は成功する() {
-        assertDoesNotThrow(() -> 
-            Status.validateTransition(Status.NEW, Status.NEW)
-        );
-    }
-    
-    @Test
-    void canTransitionToメソッドは正しく判定する() {
-        assertTrue(Status.NEW.canTransitionTo(Status.IN_PROGRESS));
-        assertFalse(Status.NEW.canTransitionTo(Status.RESOLVED));
+
+    // ========================================================================
+    // canTransitionTo のテスト
+    // ========================================================================
+    @Nested
+    @DisplayName("canTransitionTo のテスト")
+    class CanTransitionToTest {
+
+        @ParameterizedTest
+        @CsvSource({
+                "NEW,NEW,false",
+                "NEW,IN_PROGRESS,true",
+                "NEW,ON_HOLD,false",
+                "NEW,RESOLVED,false",
+                "IN_PROGRESS,NEW,false",
+                "IN_PROGRESS,IN_PROGRESS,true",
+                "IN_PROGRESS,ON_HOLD,true",
+                "IN_PROGRESS,RESOLVED,true",
+                "ON_HOLD,NEW,false",
+                "ON_HOLD,IN_PROGRESS,true",
+                "ON_HOLD,ON_HOLD,true",
+                "ON_HOLD,RESOLVED,false",
+                "RESOLVED,NEW,false",
+                "RESOLVED,IN_PROGRESS,false",
+                "RESOLVED,ON_HOLD,false",
+                "RESOLVED,RESOLVED,true"
+        })
+        @DisplayName("遷移の可否が正しく判定される")
+        void canTransitionTo(String fromStatusName, String toStatusName, boolean expected) {
+            // Arrange
+            Status from = Status.valueOf(fromStatusName);
+            Status to = Status.valueOf(toStatusName);
+
+            // Act
+            boolean result = from.canTransitionTo(to);
+
+            // Assert
+            assertThat(result).isEqualTo(expected);
+        }
     }
 }
