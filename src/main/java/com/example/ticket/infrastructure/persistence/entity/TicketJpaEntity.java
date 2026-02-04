@@ -1,13 +1,18 @@
 package com.example.ticket.infrastructure.persistence.entity;
 
-import com.example.ticket.domain.model.value.Priority;
+import java.time.LocalDateTime;
+
 import com.example.ticket.domain.model.value.Status;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 /**
  * チケットJPAエンティティ
@@ -18,33 +23,29 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TicketJpaEntity {
-    
+
     @Id
     private String id;
-    
+
     @Column(nullable = false)
     private String title;
-    
+
     @Column(length = 5000)
     private String description;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Priority priority;
-    
+
     private String assigneeId;
     private String assigneeName;
-    
+
     @Column(nullable = false)
     private LocalDateTime dueDate;
-    
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
-    
+
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 }

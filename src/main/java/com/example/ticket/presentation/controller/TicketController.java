@@ -1,17 +1,30 @@
 package com.example.ticket.presentation.controller;
 
-import com.example.ticket.application.command.*;
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.ticket.application.command.AddCommentCommand;
+import com.example.ticket.application.command.AssignTicketCommand;
+import com.example.ticket.application.command.ResolveTicketCommand;
+import com.example.ticket.application.command.UpdateTicketStatusCommand;
 import com.example.ticket.application.query.TicketSearchQuery;
-import com.example.ticket.application.query.dto.*;
+import com.example.ticket.application.query.dto.AssigneeWorkloadDto;
+import com.example.ticket.application.query.dto.StatusStatisticsDto;
+import com.example.ticket.application.query.dto.TicketDto;
 import com.example.ticket.application.service.TicketCommandService;
 import com.example.ticket.application.service.TicketQueryService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * チケットRESTコントローラー
@@ -21,20 +34,10 @@ import java.util.List;
 @RequestMapping("/api/tickets")
 @RequiredArgsConstructor
 public class TicketController {
-    
+
     private final TicketCommandService commandService;
     private final TicketQueryService queryService;
-    
-    /**
-     * チケット作成
-     */
-    @PostMapping
-    public ResponseEntity<String> createTicket(@RequestBody CreateTicketCommand command) {
-        log.info("POST /api/tickets: {}", command);
-        String ticketId = commandService.createTicket(command);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ticketId);
-    }
-    
+
     /**
      * ステータス更新
      */
@@ -47,7 +50,7 @@ public class TicketController {
         commandService.updateStatus(command);
         return ResponseEntity.ok().build();
     }
-    
+
     /**
      * チケット割当
      */
@@ -60,20 +63,7 @@ public class TicketController {
         commandService.assignTicket(command);
         return ResponseEntity.ok().build();
     }
-    
-    /**
-     * 優先度更新
-     */
-    @PutMapping("/{ticketId}/priority")
-    public ResponseEntity<Void> updatePriority(
-            @PathVariable String ticketId,
-            @RequestBody UpdatePriorityCommand command) {
-        log.info("PUT /api/tickets/{}/priority: {}", ticketId, command);
-        command.setTicketId(ticketId);
-        commandService.updatePriority(command);
-        return ResponseEntity.ok().build();
-    }
-    
+
     /**
      * チケット解決
      */
@@ -83,7 +73,7 @@ public class TicketController {
         commandService.resolveTicket(new ResolveTicketCommand(ticketId));
         return ResponseEntity.ok().build();
     }
-    
+
     /**
      * チケット再開
      */
@@ -93,7 +83,7 @@ public class TicketController {
         commandService.reopenTicket(ticketId);
         return ResponseEntity.ok().build();
     }
-    
+
     /**
      * コメント追加
      */
@@ -106,7 +96,7 @@ public class TicketController {
         commandService.addComment(command);
         return ResponseEntity.ok().build();
     }
-    
+
     /**
      * チケット検索
      */
@@ -118,22 +108,19 @@ public class TicketController {
             @RequestParam(required = false) String assigneeId,
             @RequestParam(required = false) Boolean overdue) {
         log.info("GET /api/tickets");
-        
+
         TicketSearchQuery query = new TicketSearchQuery();
         query.setTicketId(ticketId);
         if (status != null) {
             query.setStatus(com.example.ticket.domain.model.value.Status.valueOf(status));
         }
-        if (priority != null) {
-            query.setPriority(com.example.ticket.domain.model.value.Priority.valueOf(priority));
-        }
         query.setAssigneeId(assigneeId);
         query.setOverdue(overdue);
-        
+
         List<TicketDto> tickets = queryService.searchTickets(query);
         return ResponseEntity.ok(tickets);
     }
-    
+
     /**
      * チケット詳細取得
      */
@@ -146,7 +133,7 @@ public class TicketController {
         }
         return ResponseEntity.ok(ticket);
     }
-    
+
     /**
      * ステータス別統計
      */
@@ -156,7 +143,7 @@ public class TicketController {
         List<StatusStatisticsDto> statistics = queryService.getStatusStatistics();
         return ResponseEntity.ok(statistics);
     }
-    
+
     /**
      * 担当者別ワークロード
      */
@@ -166,7 +153,7 @@ public class TicketController {
         List<AssigneeWorkloadDto> workload = queryService.getAssigneeWorkload();
         return ResponseEntity.ok(workload);
     }
-    
+
     /**
      * SLA違反チケット一覧
      */
@@ -175,15 +162,5 @@ public class TicketController {
         log.info("GET /api/tickets/sla-violated");
         List<TicketDto> tickets = queryService.getSlaViolatedTickets();
         return ResponseEntity.ok(tickets);
-    }
-    
-    /**
-     * 優先度別レポート
-     */
-    @GetMapping("/statistics/priority")
-    public ResponseEntity<List<PriorityReportDto>> getPriorityReport() {
-        log.info("GET /api/tickets/statistics/priority");
-        List<PriorityReportDto> report = queryService.getPriorityReport();
-        return ResponseEntity.ok(report);
     }
 }

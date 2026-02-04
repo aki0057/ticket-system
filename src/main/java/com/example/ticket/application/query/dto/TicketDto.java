@@ -1,12 +1,12 @@
 package com.example.ticket.application.query.dto;
 
-import com.example.ticket.domain.model.value.Priority;
+import java.time.LocalDateTime;
+
 import com.example.ticket.domain.model.value.Status;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 /**
  * チケットDTO
@@ -19,7 +19,6 @@ public class TicketDto {
     private String title;
     private String description;
     private Status status;
-    private Priority priority;
     private String assigneeId;
     private String assigneeName;
     private LocalDateTime dueDate;
