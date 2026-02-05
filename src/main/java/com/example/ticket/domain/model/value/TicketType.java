@@ -2,6 +2,8 @@ package com.example.ticket.domain.model.value;
 
 import java.util.Arrays;
 
+import lombok.NonNull;
+
 /**
  * チケット種別値オブジェクト
  */
@@ -46,7 +48,7 @@ public enum TicketType {
      * @return 対応するチケット種別
      * @throws IllegalArgumentException 不正なプレフィックスの場合
      */
-    public static TicketType fromPrefix(String prefix) {
+    public static TicketType fromPrefix(@NonNull String prefix) {
         // Java Stream APIで全てのenum値を検索
         return Arrays.stream(values())
                 .filter(type -> type.prefix.equals(prefix))

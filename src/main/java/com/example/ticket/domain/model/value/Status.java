@@ -2,6 +2,8 @@ package com.example.ticket.domain.model.value;
 
 import com.example.ticket.domain.exception.InvalidStatusTransitionException;
 
+import lombok.NonNull;
+
 /**
  * チケットの状態を表す値オブジェクト
  * 
@@ -38,7 +40,7 @@ public enum Status {
      * @param to   遷移先の状態
      * @throws InvalidStatusTransitionException 不正な遷移の場合
      */
-    public static void validateTransition(Status from, Status to) {
+    public static void validateTransition(@NonNull Status from, @NonNull Status to) {
         boolean isValid = switch (from) {
             case NEW -> to == IN_PROGRESS;
             case IN_PROGRESS -> to == IN_PROGRESS || to == ON_HOLD || to == RESOLVED;
@@ -48,7 +50,7 @@ public enum Status {
 
         if (!isValid) {
             throw new InvalidStatusTransitionException(
-                    String.format("Invalid status transition: %s -> %s", from, to));
+                    String.format("不正な状態遷移です: %s → %s", from, to));
         }
     }
 

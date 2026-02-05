@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
 /**
@@ -30,13 +31,7 @@ public class TicketNumber {
      * @param sequenceNo 連番(1-999)
      * @return 生成されたチケット番号
      */
-    public static TicketNumber generate(LocalDate date, TicketType type, int sequenceNo) {
-        if (date == null) {
-            throw new IllegalArgumentException("日付がnullです");
-        }
-        if (type == null) {
-            throw new IllegalArgumentException("チケット種別がnullです");
-        }
+    public static TicketNumber generate(@NonNull LocalDate date, @NonNull TicketType type, int sequenceNo) {
         if (sequenceNo < MIN_SEQUENCE_NO || sequenceNo > MAX_SEQUENCE_NO) {
             throw new IllegalArgumentException("連番は1から999の範囲で指定してください: " + sequenceNo);
         }
@@ -47,9 +42,9 @@ public class TicketNumber {
         return new TicketNumber(datePart + prefix + seqPart);
     }
 
-    public TicketNumber(String value) {
-        if (value == null || value.isEmpty()) {
-            throw new IllegalArgumentException("チケット番号がnullまたは空文字です");
+    public TicketNumber(@NonNull String value) {
+        if (value.isEmpty()) {
+            throw new IllegalArgumentException("チケット番号が空文字です");
         }
         validateFormat(value);
         this.value = value;
