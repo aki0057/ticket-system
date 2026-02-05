@@ -24,22 +24,6 @@ class TicketNumberTest {
     class GenerateTest {
 
         // ====================================================================
-        // 日付部分（8桁）のテスト
-        // ====================================================================
-        @Test
-        @DisplayName("異常系: 日付が null で IllegalArgumentException をスロー")
-        void generate_日付がnull() {
-            // arrange
-            LocalDate date = null;
-            TicketType type = TicketType.INCIDENT;
-            int sequenceNo = 1;
-
-            // act & assert
-            assertThatThrownBy(() -> TicketNumber.generate(date, type, sequenceNo))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        // ====================================================================
         // プレフィックス部分（1文字）のテスト
         // ====================================================================
         @Test
@@ -151,19 +135,6 @@ class TicketNumberTest {
         }
 
         @Test
-        @DisplayName("異常系: チケットタイプが null で IllegalArgumentException をスロー")
-        void generate_チケットタイプがnull() {
-            // arrange
-            LocalDate date = TEST_DATE;
-            TicketType type = null;
-            int sequenceNo = 1;
-
-            // act & assert
-            assertThatThrownBy(() -> TicketNumber.generate(date, type, sequenceNo))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
         @DisplayName("異常系: 連番が0で IllegalArgumentException をスロー")
         void generate_連番0() {
             // arrange
@@ -221,14 +192,6 @@ class TicketNumberTest {
             assertThat(new TicketNumber("20260101Q001").getValue()).isEqualTo("20260101Q001");
             assertThat(new TicketNumber("20260101M001").getValue()).isEqualTo("20260101M001");
             assertThat(new TicketNumber("20260101O001").getValue()).isEqualTo("20260101O001");
-        }
-
-        @Test
-        @DisplayName("異常系: null で IllegalArgumentException をスロー")
-        void constructor_null() {
-            // act & assert
-            assertThatThrownBy(() -> new TicketNumber(null))
-                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test

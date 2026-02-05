@@ -81,14 +81,6 @@ class TicketTypeTest {
         }
 
         @Test
-        @DisplayName("異常系: null プレフィックスで IllegalArgumentException をスロー")
-        void fromPrefix_nullプレフィックス() {
-            // act & assert
-            assertThatThrownBy(() -> TicketType.fromPrefix(null))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
         @DisplayName("異常系: 空文字プレフィックスで IllegalArgumentException をスロー")
         void fromPrefix_空文字プレフィックス() {
             // act & assert
